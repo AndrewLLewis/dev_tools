@@ -1,6 +1,3 @@
-autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-silent! close
-
 " ========================================================================
 nnoremap <Space> @q
 
@@ -118,6 +115,18 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " ========================================================================
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+if empty(glob('~/.fzf/install'))
+  silent !git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  silent !y | ~/.fzf/install
+endif
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'morhetz/gruvbox', {'do': ':colorscheme gruvbox'}
@@ -134,13 +143,14 @@ Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --clangd-completer' }
 Plug 'kgreenek/vim-ros-ycm'
 Plug 'nvie/vim-flake8'
 Plug 'airblade/vim-gitgutter'
+Plug '~/.fzf'
 
 call plug#end()
 
 
 
 " ========================================================================
-set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set colorcolumn=80
 set cino=N-s,g0,+0,(0,t0
 
