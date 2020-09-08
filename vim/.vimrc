@@ -11,14 +11,19 @@ function! GetRoot(path)
 endfunction
 
 function! g:HeaderguardName()
-    let path_name = "_" . toupper(expand('%:p:h:t:gs/[^0-9a-zA-Z_]/_/g')) . "_"
-    let package_name = "_" . toupper(expand('%:p:h:h:h:t:gs/[^0-9a-zA-Z_]/_/g')) ."_"
-    if path_name == "_INCLUDE_"
-        let path_name = ""
-        let package_name = "_" . toupper(expand('%:p:h:h:t:gs/[^0-9a-zA-Z_]/_/g')) . "_"
-    endif
-    
-    return "_" . package_name . path_name . "_" . toupper(expand('%:t:gs/[^0-9a-zA-Z_]/_/g')) . "__"
+
+  if expand('%:p:h:t') == "include"
+    let package_name = toupper(expand('%:p:h:h:t:gs/[^0-9a-zA-Z_]/_/g'))"
+  elseif expand('%:p:h:h:t') == "include"
+    let package_name = toupper(expand('%:p:h:h:h:t:gs/[^0-9a-zA-Z_]/_/g'))"
+  elseif expand('%:p:h:h:h:t') == "include"
+    let package_name = toupper(expand('%:p:h:h:h:h:t:gs/[^0-9a-zA-Z_]/_/g'))"
+  endif
+
+  let path_name = split(toupper(expand('%:p:h:gs/[^0-9a-zA-Z_]/_/g')), 'INCLUDE')[-1]
+  let file_name = toupper(expand('%:gs/[^0-9a-zA-Z_]/_/g'))
+
+  return "__" . package_name . "__" . "INCLUDE" . path_name . "__" . file_name . "__"
 endfunction
 
 let g:headerguard_use_cpp_comments = 1
